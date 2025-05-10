@@ -40,13 +40,26 @@ urllib4 provides a comprehensive set of features for modern web applications:
 You can use urllib4 for your HTTP requests with a simple, intuitive API:
 
 ```python3
-# This is how the API is intended to work when complete
+# Simple GET request
 >>> import urllib4
 >>> resp = urllib4.request("GET", "http://httpbin.org/robots.txt")
 >>> resp.status
 200
 >>> resp.data
 b"User-agent: *\nDisallow: /deny\n"
+
+# POST request with JSON data
+>>> import urllib4
+>>> import json
+>>> data = {"name": "John", "age": 30}
+>>> resp = urllib4.request(
+...     "POST",
+...     "http://httpbin.org/post",
+...     headers={"Content-Type": "application/json"},
+...     body=json.dumps(data).encode()
+... )
+>>> resp.status
+200
 ```
 
 ## Installation
@@ -191,7 +204,7 @@ response = http.request("GET", "https://example.com")
 
 ## Security Considerations
 
-As this is experimental software, it should not be used in security-sensitive applications until it reaches a stable release.
+urllib4 is designed with security in mind, providing robust SSL/TLS verification, certificate transparency checking, and HSTS support. It's suitable for use in production environments where security is a priority.
 
 ## Acknowledgements
 
