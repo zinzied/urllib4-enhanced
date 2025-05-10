@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "urllib4-enhanced"
-version = "1.0.2"
+version = "1.0.3"
 description = "A modern HTTP client for Python with HTTP/2, WebSocket, and enhanced security features"
 readme = "README.md"
 license = "MIT"

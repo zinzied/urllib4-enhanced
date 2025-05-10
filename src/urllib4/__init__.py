@@ -128,10 +128,8 @@ def request(
     A convenience, top-level request method. It uses a module-global ``PoolManager``
     instance.
     """
-    from .poolmanager import PoolManager
-
-    if not _DEFAULT_POOL:
-        _DEFAULT_POOL.set(PoolManager())
+    # No need to check if _DEFAULT_POOL exists since our ThreadLocalPoolManager
+    # will initialize the pool manager on first access
     return _DEFAULT_POOL.get().request(
         method,
         url,
@@ -149,6 +147,26 @@ def request(
 
 
 # Ensure that the default PoolManager is created only once
-from threading import local as _local
+import threading
 
-_DEFAULT_POOL = _local()
+class ThreadLocalPoolManager:
+    """Thread-local storage for pool managers with proper get/set methods"""
+
+    def __init__(self):
+        """Initialize the thread-local storage"""
+        self._local = threading.local()
+
+    def get(self):
+        """Get the pool manager for the current thread"""
+        if not hasattr(self._local, 'pool_manager'):
+            # Import here to avoid circular imports
+            from .poolmanager import PoolManager
+            self._local.pool_manager = PoolManager()
+        return self._local.pool_manager
+
+    def set(self, pool_manager):
+        """Set the pool manager for the current thread"""
+        self._local.pool_manager = pool_manager
+
+# Create the thread-local pool manager
+_DEFAULT_POOL = ThreadLocalPoolManager()
