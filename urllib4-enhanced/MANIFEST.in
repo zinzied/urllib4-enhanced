@@ -1,0 +1,12 @@
+include LICENSE.txt
+include README.md
+include pyproject.toml
+include setup.py
+
+recursive-include src *
+recursive-exclude src *.pyc
+recursive-exclude src __pycache__
+
+prune test
+prune docs
+prune dummyserver

@@ -1,0 +1,35 @@
+
+[all]
+zstandard>=0.18.0
+PySocks!=1.5.7,<2.0,>=1.5.6
+h2<5,>=4
+cryptography>=38.0.0
+
+[all:platform_python_implementation != "CPython"]
+brotlicffi>=0.8.0
+
+[all:platform_python_implementation == "CPython"]
+brotli>=1.0.9
+
+[brotli]
+
+[brotli:platform_python_implementation != "CPython"]
+brotlicffi>=0.8.0
+
+[brotli:platform_python_implementation == "CPython"]
+brotli>=1.0.9
+
+[http2]
+h2<5,>=4
+
+[security]
+cryptography>=38.0.0
+
+[socks]
+PySocks!=1.5.7,<2.0,>=1.5.6
+
+[websocket]
+idna>=2.0.0
+
+[zstd]
+zstandard>=0.18.0
