@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "urllib4-enhanced"
-version = "1.0.3"
-description = "A modern HTTP client for Python with HTTP/2, WebSocket, and enhanced security features"
+version = "1.1.0"
+description = "A modern HTTP client for Python with HTTP/3, WebSocket extensions, and enhanced security features"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE.txt"]
-keywords = ["urllib", "httplib", "threadsafe", "filepost", "http", "https", "ssl", "pooling", "http2", "websocket", "security"]
+keywords = ["urllib", "httplib", "threadsafe", "filepost", "http", "https", "ssl", "pooling", "http2", "http3", "quic", "websocket", "security"]
 authors = [
   {name = "Zied Boughdir", email = "ziedboughdir@gmail.com"}
 ]
@@ -47,8 +47,14 @@ socks = [
 http2 = [
   "h2>=4,<5"
 ]
+http3 = [
+  "aioquic>=0.9.20",
+  "netifaces>=0.11.0"
+]
 websocket = [
   "idna>=2.0.0",
+  "msgpack>=1.0.4",
+  "cbor2>=5.4.6"
 ]
 security = [
   "cryptography>=38.0.0",
@@ -59,6 +65,10 @@ all = [
   "zstandard>=0.18.0",
   "PySocks>=1.5.6,<2.0,!=1.5.7",
   "h2>=4,<5",
+  "aioquic>=0.9.20",
+  "netifaces>=0.11.0",
+  "msgpack>=1.0.4",
+  "cbor2>=5.4.6",
   "cryptography>=38.0.0",
 ]
 

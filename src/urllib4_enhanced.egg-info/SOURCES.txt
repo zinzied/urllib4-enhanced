@@ -22,6 +22,11 @@ src/urllib4/http2/probe.py
 src/urllib4/http2/push.py
 src/urllib4/http2/push_manager.py
 src/urllib4/http2/settings.py
+src/urllib4/http3/__init__.py
+src/urllib4/http3/connection.py
+src/urllib4/http3/migration.py
+src/urllib4/http3/multipath.py
+src/urllib4/http3/settings.py
 src/urllib4/util/__init__.py
 src/urllib4/util/cert_transparency.py
 src/urllib4/util/cert_verification.py
@@ -36,9 +41,13 @@ src/urllib4/util/timeout.py
 src/urllib4/util/url.py
 src/urllib4/util/util.py
 src/urllib4/websocket/__init__.py
+src/urllib4/websocket/backpressure.py
 src/urllib4/websocket/connection.py
 src/urllib4/websocket/exceptions.py
+src/urllib4/websocket/extensions.py
+src/urllib4/websocket/health.py
 src/urllib4/websocket/protocol.py
+src/urllib4/websocket/subprotocols.py
 src/urllib4_enhanced.egg-info/PKG-INFO
 src/urllib4_enhanced.egg-info/SOURCES.txt
 src/urllib4_enhanced.egg-info/dependency_links.txt
