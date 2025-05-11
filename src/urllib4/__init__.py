@@ -40,7 +40,11 @@ from .http2 import ConnectionProfile, FlowControlStrategy, HTTP2Settings
 from .websocket import WebSocketConnection, connect as websocket_connect
 
 # Import security components
-from .util.cert_verification import CertificateTransparencyPolicy, SPKIPinningVerifier
+from .util.cert_verification import (
+    CertificateTransparencyPolicy,
+    CertificateTransparencyVerifier,
+    SPKIPinningVerifier,
+)
 from .util.hsts import HSTSCache, HSTSHandler
 
 __all__ = (
@@ -57,6 +61,7 @@ __all__ = (
     "HTTP2Settings",
     # Security features
     "CertificateTransparencyPolicy",
+    "CertificateTransparencyVerifier",
     "SPKIPinningVerifier",
     "HSTSCache",
     "HSTSHandler",

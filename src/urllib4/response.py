@@ -8,9 +8,7 @@ from __future__ import annotations
 
 import io
 import logging
-import typing
-import zlib
-from http.client import HTTPResponse as _HTTPResponse
+from typing import List, Optional, Union
 
 from ._collections import HTTPHeaderDict
 
@@ -97,6 +95,7 @@ class HTTPResponse(io.IOBase):
         self._original_response = original_response
         self._fp_bytes_read = 0
         self._buffer = b""
+        self.pushed_responses = []
 
         if body is not None and preload_content:
             self._body = body
@@ -136,6 +135,18 @@ class HTTPResponse(io.IOBase):
             return self._body
         if self._fp:
             return self.read(cache_content=True)
+        return None
+
+    def get_pushed_response(self, url):
+        """
+        Get a pushed response for a specific URL.
+
+        :param url: The URL to look for
+        :return: The pushed response or None if not found
+        """
+        for response in self.pushed_responses:
+            if response.request_url == url:
+                return response
         return None
 
     def read(self, amt=None, decode_content=None, cache_content=False):

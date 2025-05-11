@@ -16,11 +16,14 @@ src/urllib4/filepost.py
 src/urllib4/poolmanager.py
 src/urllib4/response.py
 src/urllib4/http2/__init__.py
+src/urllib4/http2/connection.py
 src/urllib4/http2/flow_control.py
 src/urllib4/http2/probe.py
 src/urllib4/http2/push.py
+src/urllib4/http2/push_manager.py
 src/urllib4/http2/settings.py
 src/urllib4/util/__init__.py
+src/urllib4/util/cert_transparency.py
 src/urllib4/util/cert_verification.py
 src/urllib4/util/connection.py
 src/urllib4/util/hsts.py

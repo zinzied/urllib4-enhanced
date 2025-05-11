@@ -13,11 +13,15 @@ __all__ = [
     "ConnectionProfile",
     "FlowControlStrategy",
     "HTTP2Settings",
+    "HTTP2Connection",
+    "PushManager",
 ]
 
 import typing
 
+from .connection import HTTP2Connection
 from .flow_control import FlowControlStrategy
+from .push_manager import PushManager
 from .settings import ConnectionProfile, HTTP2Settings, SettingsManager
 
 orig_HTTPSConnection: typing.Any = None

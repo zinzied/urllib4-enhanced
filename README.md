@@ -29,11 +29,11 @@ urllib4 provides a comprehensive set of features for modern web applications:
 - Redirect handling
 - Compression support
 
-### � Advanced Features:
+### ✅ Advanced Features:
 - Enhanced HTTP/2 Support
-- WebSocket capabilities
+- WebSocket capabilities with extensions and subprotocols
 - Improved security features
-- HTTP/3 (QUIC) groundwork
+- HTTP/3 (QUIC) support with Multipath QUIC
 
 ## Usage Example
 
@@ -122,25 +122,63 @@ response = http.request("GET", "https://nghttp2.org")
 print(f"HTTP version: {response.version_string}")
 ```
 
-### WebSocket Support (Planned)
+### WebSocket Support
 
 ```python
-# This is a planned API - not yet implemented
-from urllib4.websocket import connect
+from urllib4.websocket import WebSocketConnection
 
-# Connect to a WebSocket server
-ws = connect("wss://echo.websocket.org")
+# Connect to a WebSocket server with compression and health monitoring
+ws = WebSocketConnection(
+    "wss://echo.websocket.org",
+    enable_compression=True,
+    compression_level=9,
+    enable_health_monitoring=True,
+    ping_interval=30.0,
+    ping_timeout=5.0,
+)
 
-# Send a message
+# Connect to the server
+ws.connect()
+
+# Send a text message
 ws.send("Hello, WebSocket!")
 
-# Receive a message
-message = ws.receive()
-print(f"Received: {message.text}")
+# Send a binary message
+ws.send(b"\x01\x02\x03\x04")
+
+# Send a structured object using a subprotocol
+ws = WebSocketConnection(
+    "wss://echo.websocket.org",
+    protocols=["json"],
+)
+ws.connect()
+ws.send({"name": "John", "age": 30})  # Automatically encoded as JSON
+
+# Receive a message with timeout
+try:
+    message = ws.receive(timeout=5.0)
+    if isinstance(message, dict):
+        print(f"Received JSON: {message}")
+    else:
+        print(f"Received: {message.text}")
+except WebSocketTimeoutError:
+    print("Timed out waiting for message")
 
 # Close the connection
 ws.close()
 ```
+
+### WebSocket Extensions and Subprotocols
+
+urllib4 supports various WebSocket extensions and subprotocols:
+
+- **Extensions**:
+  - `permessage-deflate`: Compresses WebSocket messages for better performance
+
+- **Subprotocols**:
+  - `json`: Automatically encodes/decodes JSON data
+  - `msgpack`: Efficiently encodes/decodes MessagePack data (requires `msgpack` package)
+  - `cbor`: Efficiently encodes/decodes CBOR data (requires `cbor2` package)
 
 ### Enhanced Security Features (Planned)
 
