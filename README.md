@@ -70,6 +70,19 @@ You can install urllib4-enhanced with pip:
 $ pip install urllib4-enhanced
 ```
 
+For additional features, you can install optional dependencies:
+
+```bash
+# For HTTP/3 support
+$ pip install urllib4-enhanced[http3]
+
+# For WebSocket subprotocols
+$ pip install urllib4-enhanced[websocket]
+
+# For all optional features
+$ pip install urllib4-enhanced[all]
+```
+
 Alternatively, you can install from source:
 
 ```bash
@@ -104,10 +117,20 @@ Documentation is currently limited to code comments and this README. As the proj
 
 The following features are planned for future development:
 
-### HTTP/2 Support (Planned)
+### HTTP/3 Enhancements
+
+- Connection migration for improved reliability
+- HTTP/3 priority management
+- WebTransport support
+
+### WebSocket Enhancements
+
+- Additional WebSocket extensions
+- WebSocket over HTTP/2
+
+### HTTP/2 Support
 
 ```python
-# This is a planned API - not yet implemented
 import urllib4
 from urllib4.http2 import inject_into_urllib4, ConnectionProfile
 
@@ -179,6 +202,46 @@ urllib4 supports various WebSocket extensions and subprotocols:
   - `json`: Automatically encodes/decodes JSON data
   - `msgpack`: Efficiently encodes/decodes MessagePack data (requires `msgpack` package)
   - `cbor`: Efficiently encodes/decodes CBOR data (requires `cbor2` package)
+
+### HTTP/3 Support
+
+```python
+import urllib4
+from urllib4.http3 import HTTP3Connection, HTTP3Settings, QUICSettings, inject_into_urllib4
+
+# Direct HTTP/3 usage
+quic_settings = QUICSettings(
+    enable_multipath=True,  # Enable Multipath QUIC
+    max_paths=4,
+    enable_0rtt=True,       # Enable 0-RTT for faster connections
+)
+
+http3_settings = HTTP3Settings(
+    quic=quic_settings,
+)
+
+# Create an HTTP/3 connection
+conn = HTTP3Connection(
+    "cloudflare-quic.com",  # A server that supports HTTP/3
+    settings=http3_settings,
+)
+
+# Connect and make a request
+conn.connect()
+response = conn.request("GET", "/")
+print(f"Status: {response.status}")
+print(f"Body: {response.data.decode()[:100]}...")
+
+# Close the connection
+conn.close()
+
+# Alternatively, inject HTTP/3 support into urllib4
+inject_into_urllib4()
+
+# Now all HTTPS requests will automatically use HTTP/3 when available
+http = urllib4.PoolManager()
+response = http.request("GET", "https://cloudflare-quic.com/")
+```
 
 ### Enhanced Security Features (Planned)
 

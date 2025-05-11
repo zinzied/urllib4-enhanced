@@ -7,8 +7,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="urllib4-enhanced",
-    version="1.0.3",
-    description="A modern HTTP client for Python with HTTP/2, WebSocket, and enhanced security features",
+    version="1.1.0",
+    description="A modern HTTP client for Python with HTTP/3, WebSocket extensions, and enhanced security features",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Zied Boughdir",
@@ -36,9 +36,21 @@ setup(
     ],
     extras_require={
         "http2": ["h2>=4.0.0"],
+        "http3": ["aioquic>=0.9.20", "netifaces>=0.11.0"],
+        "websocket": ["msgpack>=1.0.4", "cbor2>=5.4.6"],
         "brotli": ["brotli>=1.0.9"],
         "zstd": ["zstandard>=0.18.0"],
         "socks": ["pysocks>=1.7.1"],
+        "all": [
+            "h2>=4.0.0",
+            "aioquic>=0.9.20",
+            "netifaces>=0.11.0",
+            "msgpack>=1.0.4",
+            "cbor2>=5.4.6",
+            "brotli>=1.0.9",
+            "zstandard>=0.18.0",
+            "pysocks>=1.7.1",
+        ],
         "dev": [
             "pytest>=7.0.0",
             "pytest-cov>=4.0.0",
