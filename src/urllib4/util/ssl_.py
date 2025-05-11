@@ -96,7 +96,7 @@ def ssl_wrap_socket(
         When SNI is supported, the expected hostname of the certificate
     :param ssl_context:
         A pre-made :class:`SSLContext` object. If none is provided, one will
-        be created using :func:`create_urllib3_context`.
+        be created using :func:`create_urllib4_context`.
     :param ciphers:
         A string of ciphers we wish the client to support.
     :param ca_cert_dir:
@@ -114,7 +114,7 @@ def ssl_wrap_socket(
     context = ssl_context
     if context is None:
         # Note: This branch of code and all the variables in it are no longer
-        # used by urllib3 itself. We should consider deprecating and removing
+        # used by urllib4 itself. We should consider deprecating and removing
         # this code.
         context = ssl.SSLContext(ssl.PROTOCOL_TLS)
         context.verify_mode = ssl.CERT_REQUIRED
