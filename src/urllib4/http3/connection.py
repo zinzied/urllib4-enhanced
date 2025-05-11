@@ -19,6 +19,7 @@ from .._collections import HTTPHeaderDict
 from ..connection import HTTPSConnection
 from ..exceptions import ConnectionError, HTTPError, TimeoutError
 from ..response import HTTPResponse
+from .migration import MigrationManager, MigrationPolicy, MigrationTrigger
 from .multipath import MultipathManager
 from .settings import HTTP3Settings, QUICSettings
 
@@ -94,6 +95,9 @@ class HTTP3Connection:
         # Multipath manager
         self._multipath_manager: Optional[MultipathManager] = None
 
+        # Migration manager
+        self._migration_manager: Optional[MigrationManager] = None
+
         # Stream tracking
         self._streams: Dict[int, _HTTP3Stream] = {}
 
@@ -151,6 +155,19 @@ class HTTP3Connection:
                     self._quic_connection,
                     max_paths=self.settings.quic.max_paths,
                 )
+
+                # Initialize migration manager if active migration is enabled
+                if self.settings.quic.enable_active_migration:
+                    self._migration_manager = MigrationManager(
+                        self._quic_connection,
+                        self._multipath_manager,
+                        policy=MigrationPolicy(
+                            enable_auto_migration=True,
+                            min_migration_interval=5.0,
+                            rtt_degradation_threshold=200.0,
+                            loss_degradation_threshold=0.05,
+                        ),
+                    )
 
             # Set timeout
             if self.timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
@@ -410,6 +427,44 @@ class HTTP3Connection:
             except Exception as e:
                 log.warning(f"Failed to send data: {e}")
 
+    def migrate_connection(self, target_path_id: Optional[int] = None) -> bool:
+        """
+        Manually migrate the connection to a different network path.
+
+        This method allows the application to manually trigger a connection
+        migration, for example in response to a network change event.
+
+        :param target_path_id: The ID of the path to migrate to, or None to select automatically
+        :return: True if migration was successful
+        :raises ConnectionError: If migration is not supported or fails
+        """
+        if self._migration_manager is None:
+            raise ConnectionError("Connection migration not supported")
+
+        if not self._migration_manager.can_migrate():
+            raise ConnectionError("Connection migration not possible at this time")
+
+        success = self._migration_manager.migrate(MigrationTrigger.MANUAL, target_path_id)
+        if not success:
+            raise ConnectionError("Connection migration failed")
+
+        return success
+
+    def handle_network_change(self) -> bool:
+        """
+        Handle a network change event.
+
+        This method should be called when the network environment changes,
+        for example when a new network interface becomes available or an
+        existing one is disconnected.
+
+        :return: True if migration was performed
+        """
+        if self._migration_manager is None:
+            return False
+
+        return self._migration_manager.handle_network_change()
+
     def close(self) -> None:
         """Close the connection."""
         if self._closed:
@@ -557,6 +612,10 @@ class HTTP3Connection:
                                 path.path_id,
                                 rtt=rtt,
                             )
+
+                            # Check for path degradation and migrate if necessary
+                            if self._migration_manager is not None:
+                                self._migration_manager.check_path_degradation()
                     except Exception as e:
                         log.warning(f"Failed to receive datagram on path {path.path_id}: {e}")
 

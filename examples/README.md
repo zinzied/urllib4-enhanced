@@ -78,6 +78,16 @@ To run the example:
 python examples/http3_multipath.py
 ```
 
+### HTTP/3 Connection Migration
+
+The `http3_migration.py` example demonstrates HTTP/3 connection migration, which allows a connection to seamlessly transition between network interfaces without disrupting the application.
+
+To run the example:
+
+```bash
+python examples/http3_migration.py
+```
+
 ## Requirements
 
 These examples require the following dependencies:
