@@ -32,6 +32,7 @@ from ._collections import HTTPHeaderDict
 from .poolmanager import PoolManager, ProxyManager, proxy_from_url
 from .response import BaseHTTPResponse, HTTPResponse
 from .util.timeout import Timeout
+from .util.retry import Retry
 
 # Import HTTP/2 components
 from .http2 import ConnectionProfile, FlowControlStrategy, HTTP2Settings
@@ -54,6 +55,7 @@ __all__ = (
     "HTTPResponse",
     "BaseHTTPResponse",
     "Timeout",
+    "Retry",
     "proxy_from_url",
     # HTTP/2 features
     "ConnectionProfile",
