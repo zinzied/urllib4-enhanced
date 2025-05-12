@@ -1,6 +1,6 @@
-# Enhanced Features for urllib3
+# Enhanced Features for urllib4
 
-This pull request adds four major enhancements to the urllib3 library:
+This pull request adds four major enhancements to the urllib4 library:
 
 1. Enhanced HTTP/2 Support
 2. WebSocket Support
@@ -16,14 +16,14 @@ The HTTP/2 implementation has been significantly improved with the following fea
 HTTP/2 server push allows servers to proactively send resources to clients before they are requested. This can improve performance by eliminating the need for additional requests.
 
 ```python
-import urllib3
-from urllib3.http2 import ConnectionProfile
+import urllib4
+from urllib4.http2 import ConnectionProfile
 
 # Enable HTTP/2 support
-urllib3.http2.inject_into_urllib3()
+urllib4.http2.inject_into_urllib4()
 
 # Create a pool manager with server push enabled
-http = urllib3.PoolManager(
+http = urllib4.PoolManager(
     http2_enable_push=True
 )
 
@@ -31,7 +31,7 @@ http = urllib3.PoolManager(
 resp = http.request("GET", "https://example.com")
 
 # Restore HTTP/1.1 as default
-urllib3.http2.extract_from_urllib3()
+urllib4.http2.extract_from_urllib4()
 ```
 
 ### Adaptive Flow Control
@@ -39,10 +39,10 @@ urllib3.http2.extract_from_urllib3()
 Flow control in HTTP/2 manages the rate at which data is sent between client and server. Our implementation includes adaptive flow control that automatically adjusts window sizes based on network conditions.
 
 ```python
-from urllib3.http2 import FlowControlStrategy
+from urllib4.http2 import FlowControlStrategy
 
 # Create a pool manager with adaptive flow control
-http = urllib3.PoolManager(
+http = urllib4.PoolManager(
     http2_flow_control_strategy=FlowControlStrategy.ADAPTIVE
 )
 ```
@@ -52,15 +52,15 @@ http = urllib3.PoolManager(
 Different network conditions and usage patterns require different HTTP/2 settings. We've added predefined connection profiles to optimize performance.
 
 ```python
-from urllib3.http2 import ConnectionProfile
+from urllib4.http2 import ConnectionProfile
 
 # High performance profile for fast networks
-http = urllib3.PoolManager(
+http = urllib4.PoolManager(
     http2_connection_profile=ConnectionProfile.HIGH_PERFORMANCE
 )
 
 # Mobile profile for mobile networks
-http = urllib3.PoolManager(
+http = urllib4.PoolManager(
     http2_connection_profile=ConnectionProfile.MOBILE
 )
 ```
@@ -72,10 +72,10 @@ WebSocket support allows for real-time bidirectional communication over a persis
 ### Basic Usage
 
 ```python
-import urllib3
+import urllib4
 
 # Connect to a WebSocket server
-ws = urllib3.websocket_connect("wss://echo.websocket.org")
+ws = urllib4.websocket_connect("wss://echo.websocket.org")
 
 # Send a message
 ws.send("Hello, WebSocket!")
@@ -91,7 +91,7 @@ ws.close()
 ### Advanced Usage
 
 ```python
-from urllib3.websocket import WebSocketConnection, WebSocketCloseCode
+from urllib4.websocket import WebSocketConnection, WebSocketCloseCode
 
 # Connect with custom headers and protocols
 ws = WebSocketConnection(
@@ -125,11 +125,11 @@ ws.close(WebSocketCloseCode.GOING_AWAY, "Client shutting down")
 Certificate Transparency helps detect misissued certificates by requiring them to be logged in public CT logs.
 
 ```python
-import urllib3
-from urllib3.util.cert_verification import CertificateTransparencyPolicy
+import urllib4
+from urllib4.util.cert_verification import CertificateTransparencyPolicy
 
 # Create a pool manager with CT verification
-http = urllib3.PoolManager(
+http = urllib4.PoolManager(
     ct_policy=CertificateTransparencyPolicy.STRICT
 )
 ```
@@ -139,7 +139,7 @@ http = urllib3.PoolManager(
 SPKI (Subject Public Key Info) pinning provides a more flexible alternative to certificate pinning by pinning the public key rather than the entire certificate.
 
 ```python
-from urllib3.util.cert_verification import SPKIPinningVerifier
+from urllib4.util.cert_verification import SPKIPinningVerifier
 
 # Define pins for hosts
 pins = {
@@ -165,7 +165,7 @@ if not pin_verifier.verify_cert_for_host(cert, "example.com"):
 HSTS helps protect websites against protocol downgrade attacks and cookie hijacking by enforcing secure connections.
 
 ```python
-from urllib3.util.hsts import HSTSCache, HSTSHandler
+from urllib4.util.hsts import HSTSCache, HSTSHandler
 
 # Create an HSTS handler
 hsts_cache = HSTSCache()
@@ -189,21 +189,21 @@ We've laid the groundwork for HTTP/3 support, which will be implemented in a fut
 
 ### Files Added
 
-- `src/urllib3/http2/flow_control.py`: HTTP/2 flow control implementation
-- `src/urllib3/http2/push.py`: HTTP/2 server push implementation
-- `src/urllib3/http2/settings.py`: HTTP/2 settings management
-- `src/urllib3/websocket/__init__.py`: WebSocket package initialization
-- `src/urllib3/websocket/connection.py`: WebSocket connection implementation
-- `src/urllib3/websocket/protocol.py`: WebSocket protocol implementation
-- `src/urllib3/websocket/exceptions.py`: WebSocket exceptions
-- `src/urllib3/util/cert_verification.py`: Certificate verification enhancements
-- `src/urllib3/util/hsts.py`: HSTS implementation
+- `src/urllib4/http2/flow_control.py`: HTTP/2 flow control implementation
+- `src/urllib4/http2/push.py`: HTTP/2 server push implementation
+- `src/urllib4/http2/settings.py`: HTTP/2 settings management
+- `src/urllib4/websocket/__init__.py`: WebSocket package initialization
+- `src/urllib4/websocket/connection.py`: WebSocket connection implementation
+- `src/urllib4/websocket/protocol.py`: WebSocket protocol implementation
+- `src/urllib4/websocket/exceptions.py`: WebSocket exceptions
+- `src/urllib4/util/cert_verification.py`: Certificate verification enhancements
+- `src/urllib4/util/hsts.py`: HSTS implementation
 
 ### Files Modified
 
-- `src/urllib3/http2/__init__.py`: Added exports for new HTTP/2 features
-- `src/urllib3/http2/connection.py`: Enhanced with new HTTP/2 features
-- `src/urllib3/__init__.py`: Added exports for new features
+- `src/urllib4/http2/__init__.py`: Added exports for new HTTP/2 features
+- `src/urllib4/http2/connection.py`: Enhanced with new HTTP/2 features
+- `src/urllib4/__init__.py`: Added exports for new features
 
 ## Dependencies
 
@@ -224,4 +224,4 @@ This script verifies that all the enhanced features can be imported and used cor
 
 ## Compatibility
 
-These enhancements are compatible with urllib3 v2.0.0 and later.
+These enhancements are compatible with urllib4 v2.0.0 and later.
