@@ -13,7 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Zied Boughdir",
     author_email="ziedboughdir@gmail.com",
-    url="https://github.com/zinzied/urllib4",
+    url="https://github.com/zinzied/urllib4-enhanced",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
