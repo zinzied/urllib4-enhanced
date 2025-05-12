@@ -35,6 +35,7 @@ src/urllib4/util/hsts.py
 src/urllib4/util/proxy.py
 src/urllib4/util/request.py
 src/urllib4/util/response.py
+src/urllib4/util/retry.py
 src/urllib4/util/ssl_.py
 src/urllib4/util/ssltransport.py
 src/urllib4/util/timeout.py
