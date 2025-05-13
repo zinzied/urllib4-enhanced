@@ -32,7 +32,7 @@ from ._collections import HTTPHeaderDict
 from .poolmanager import PoolManager, ProxyManager, proxy_from_url
 from .response import BaseHTTPResponse, HTTPResponse
 from .util.timeout import Timeout
-from .util.retry import Retry
+from .util.retry import Retry, RequestHistory
 
 # Import HTTP/2 components
 from .http2 import ConnectionProfile, FlowControlStrategy, HTTP2Settings
@@ -56,6 +56,7 @@ __all__ = (
     "BaseHTTPResponse",
     "Timeout",
     "Retry",
+    "RequestHistory",
     "proxy_from_url",
     # HTTP/2 features
     "ConnectionProfile",
@@ -70,6 +71,23 @@ __all__ = (
     # WebSocket features
     "WebSocketConnection",
     "websocket_connect",
+    # Utility functions
+    "add_stderr_logger",
+    "disable_warnings",
+    # Exceptions
+    "ConnectionError",
+    "ConnectTimeoutError",
+    "HTTPError",
+    "MaxRetryError",
+    "NewConnectionError",
+    "PoolError",
+    "ProtocolError",
+    "ProxyError",
+    "ReadTimeoutError",
+    "RequestError",
+    "ResponseError",
+    "SSLError",
+    "TimeoutError",
 )
 
 # Import specific exceptions for convenience

@@ -7,6 +7,9 @@ from __future__ import annotations
 import ssl
 from typing import Any, Optional, Union
 
+# Import Retry and RequestHistory directly to ensure they're available
+from .retry import Retry, RequestHistory
+
 # Import utility functions from the ssl_ module
 def resolve_cert_reqs(candidate: Union[None, int, str]) -> int:
     """

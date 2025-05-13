@@ -2,7 +2,7 @@ Metadata-Version: 2.4
 Name: urllib4-enhanced
 Version: 1.1.1
 Summary: A modern HTTP client for Python with HTTP/3, WebSocket extensions, and enhanced security features
-Home-page: https://github.com/zinzied/urllib4
+Home-page: https://github.com/zinzied/urllib4-enhanced
 Author: Zied Boughdir
 Author-email: Zied Boughdir <ziedboughdir@gmail.com>
 License-Expression: MIT
