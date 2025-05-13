@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="urllib4-enhanced",
-    version="1.1.1",
+    version="1.1.2",
     description="A modern HTTP client for Python with HTTP/3, WebSocket extensions, and enhanced security features",
     long_description=long_description,
     long_description_content_type="text/markdown",
